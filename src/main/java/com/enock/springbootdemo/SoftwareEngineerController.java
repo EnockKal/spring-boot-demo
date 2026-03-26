@@ -1,6 +1,7 @@
 package com.enock.springbootdemo;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,15 +11,19 @@ import java.util.List;
 @RequestMapping("api/v1/software-engineer")
 public class SoftwareEngineerController {
 
+    private final SoftwareEngineerService softwareEngineerService;
+
+    public SoftwareEngineerController(SoftwareEngineerService softwareEngineerService) {
+        this.softwareEngineerService = softwareEngineerService;
+    }
+
     @GetMapping
     public List<SoftwareEngineer> getSoftwareEngineers() {
-        return List.of(
-                new SoftwareEngineer(
-                        1, "James", "js, node, react, tailwindcss"
-                ),
-                new SoftwareEngineer(
-                        2, "Enock", "java, springboot, node"
-                )
-        );
+        return softwareEngineerService.findAll();
+    }
+
+    @PostMapping("/create")
+    public void createSoftwareEngineer(SoftwareEngineer softwareEngineer){
+        softwareEngineerService.createSoftwareEngineer(softwareEngineer);
     }
 }
